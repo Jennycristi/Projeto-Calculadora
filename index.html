@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<style>
+
+     body{
+		font-family: Arial, Helvetica, sans-serif;
+        background-color: black;
+        
+	 }
+
+      #idCalculator{
+		width: 200px;
+        padding: 20px;
+		background: rgb(135, 73, 105);
+        margin: 15px auto;
+        display: grid;
+		grid-template-columns: repeat(4, 1fr);
+        grid-gap: 5px;
+        grid-template-rows: auto repeat(5, 40px);
+        border-radius: 10px;
+        
+	 }
+
+	 #idResultado{
+		padding: 10px;
+        font-size: 1.4em;
+        text-align: right;
+		background: rgb(230, 230, 230);
+        margin-bottom: 15px;
+        grid-column: 1 / -1;
+       
+	 }
+       
+
+</style>
+<body>
+
+    <div id="idCalculator">
+	 <div id="idResultado">0</div>
+		
+		<input type="button" value="7" onclick="incluirDigito('7')">
+        <input type="button" value="8" onclick="incluirDigito('8')">
+        <input type="button" value="9" onclick="incluirDigito('9')"> 
+        <input type="button" class="mais" value="+" onclick="iniciarCalculo('+')">
+
+		<input type="button" value="4" onclick="incluirDigito('4')">
+        <input type="button" value="5" onclick="incluirDigito('5')">
+        <input type="button" value="6" onclick="incluirDigito('6')">
+        <input type="button" value="-" onclick="iniciarCalculo('-')">
+
+		<input type="button" value="1" onclick="incluirDigito('1')">
+        <input type="button" value="2" onclick="incluirDigito('2')">
+        <input type="button" value="3" onclick="incluirDigito('3')">
+        <input type="button" value="*" onclick="iniciarCalculo('*')">
+     
+
+        <input type="button" class="zero" value="0" onclick="incluirDigito('0')">
+        <input type="button" value="/" onclick="iniciarCalculo('/')">
+        <input type="button" value="C" onclick="clean()">
+        <input type="button" value="=" onclick="finalizarCalculo()">
+        
+		
+		
+	</div>
+    
+</body>
+<script>
+
+     var n1 = "0"
+     var operacao = 0
+     var n2 = ''
+     var botaoIgual = ''
+
+
+         function incluirDigito(digito){
+            
+              if(operacao !== null){
+              n2 = n2 + digito
+              mostrarResultado(n2)
+               } else {
+               if(n1 == "0"){
+                n1 = digito
+             } else {
+                n1 += digito
+               }
+            
+                mostrarResultado(n1)
+               }            
+              }
+
+               if(botaoIgual){
+                botaoIgual = false
+                n1 = digito
+                mostrarResultado(n1)
+            
+            }
+        
+          //finalizar calculo clicando em igual
+          function finalizarCalculo(){
+            botaoIgual = true
+            var resultado = calcular()
+            n1 = resultado
+            mostrarResultado(n1)
+            console.log('n1', n1, 'operacao', operacao, 'n2', n2)
+            
+         }
+        
+        
+          function calcular(){
+            var numCalculado = 0
+            var num1 = parseFloat(n1)
+            var num2 = parseFloat(n2)
+            
+            switch(operacao){
+                case '+':
+                    numCalculado = num1 + num2
+                    break
+                case '-':
+                    numCalculado = num1 - num2
+                    break
+                case '*':
+                    numCalculado = num1 * num2
+                    break
+                case '/':
+                    numCalculado = num1 / num2
+                    break
+            }
+            return numCalculado
+         }
+        
+          function iniciarCalculo(simbolo){        
+            if(operacao == null || n2 == ''){
+                operacao = simbolo
+            } else {
+                var resultado = calcular()
+                n1 = resultado
+                operacao = simbolo
+                n2 = ''
+                mostrarResultado(n1)
+            }
+         }
+        
+         function incluirPonto(){
+            if(operacao && n2 == ''){
+                n2 = '0.'
+            } else if(operacao && n2){
+                n2 += '.'
+            } else {
+                n1 += '.'
+            }
+         }
+         //limpar dados da tela
+         function clean(){
+            n1 = '0'
+            operacao = null
+            n2 = ''
+            mostrarResultado(n1)
+         }
+           //mostrar numeros na tela
+           function mostrarResultado(valor){
+            document.querySelector('#idResultado').innerHTML = valor
+        }
+  
+
+</script>
+</html>
